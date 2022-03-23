@@ -13,7 +13,8 @@ $this->registerJsFile(
 );
 
 ?>
-<div class="site-pdf-viewer">
+<div class="site-pdf-viewer" onload="stopPrint(this)">
+    <?=  Html::button('button', ['hidden' => true, 'id' => 'trampCard'])?>
     <?= \yii2assets\pdfjs\PdfJs::widget([
         'url' => Url::base() . '/uploads/multiple_page.pdf',
         'buttons' => [
