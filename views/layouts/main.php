@@ -52,7 +52,7 @@ AppAsset::register($this);
                     ['label' => 'Routes', 'url' => '/admin/route'],
                     ['label' => 'Rules', 'url' => '/admin/rule'],
                 ],
-                'visible' => !Yii::$app->user->isGuest
+                'visible' => !Yii::$app->user->isGuest && (Yii::$app->user->can('User Management'))
             ],
             [
                 'label' => 'Login',
@@ -64,7 +64,7 @@ AppAsset::register($this);
                 'label' => 'Logout',
                 'url' => ['/admin/user/logout'],
                 'linkOptions' => ['data-method' => 'post'],
-                'visible' => !Yii::$app->user->isGuest,
+                'visible' => !Yii::$app->user->isGuest && (Yii::$app->user->can('File Management')),
             ],
         ],
         'options' => ['class' =>'nav-pills'], // set this to nav-tab to get tab-styled navigation
@@ -104,8 +104,8 @@ AppAsset::register($this);
 
 <footer class="footer mt-auto py-3 text-muted">
     <div class="container">
-        <p class="float-left">&copy; My Company <?= date('Y') ?></p>
-        <p class="float-right"><?= Yii::powered() ?></p>
+        <p class="float-left">&copy; Eskayef Pharmaceuticals Limited  <?= date('Y') ?></p>
+        <!--<p class="float-right"><?/*= Yii::powered() */?></p>-->
     </div>
 </footer>
 
