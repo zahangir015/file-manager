@@ -23,7 +23,8 @@ $config = [
             'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\PhpManager'
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'mdm\admin\models\User',
+            'loginUrl' => ['admin/user/login'],
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
@@ -62,14 +63,17 @@ $config = [
         ],
         'admin' => [
             'class' => 'mdm\admin\Module',
+            //'layout' => 'left-menu',
+            'mainLayout' => '@app/views/layouts/main.php',
         ]
     ],
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
-            'site/*',
+            'site/index',
             'admin/*',
-            'some-controller/some-action',
+            //'gii/*',
+            //'some-controller/some-action',
             // The actions listed here will be allowed to everyone including guests.
             // So, 'admin/*' should not appear here in the production, of course.
             // But in the earlier stages of your development, you may probably want to
@@ -94,6 +98,18 @@ if (YII_ENV_DEV) {
         // uncomment the following to add your IP if you are not connecting from localhost.
         //'allowedIPs' => ['127.0.0.1', '::1'],
     ];
+
+    function dd($var, $flag = true)
+    {
+        echo '<pre>';
+        if ($flag) {
+            print_r($var);
+        } else {
+            var_dump($var);
+        }
+        echo '</pre>';
+        die();
+    }
 }
 
 return $config;

@@ -1,6 +1,7 @@
 <?php
 
 /** @var yii\web\View $this */
+
 /** @var string $content */
 
 use app\assets\AppAsset;
@@ -35,16 +36,49 @@ AppAsset::register($this);
         ],
     ]);
     echo Nav::widget([
+        'items' => [
+            [
+                'label' => 'File Management',
+                'url' => ['/file/index'],
+                'visible' => !Yii::$app->user->isGuest
+            ],
+            [
+                'label' => 'User Management',
+                'items' => [
+                    ['label' => 'Users', 'url' => '/admin/user'],
+                    ['label' => 'Assignments', 'url' => '/admin/assignment'],
+                    ['label' => 'Roles', 'url' => '/admin/role'],
+                    ['label' => 'Permissions', 'url' => '/admin/permission'],
+                    ['label' => 'Routes', 'url' => '/admin/route'],
+                    ['label' => 'Rules', 'url' => '/admin/rule'],
+                ],
+                'visible' => !Yii::$app->user->isGuest
+            ],
+            [
+                'label' => 'Login',
+                'url' => ['/admin/user/login'],
+                'visible' => Yii::$app->user->isGuest
+            ],
+
+            [
+                'label' => 'Logout',
+                'url' => ['/admin/user/logout'],
+                'linkOptions' => ['data-method' => 'post'],
+                'visible' => !Yii::$app->user->isGuest,
+            ],
+        ],
+        'options' => ['class' =>'nav-pills'], // set this to nav-tab to get tab-styled navigation
+    ]);
+    /*echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+            ['label' => 'Login', 'url' => ['/admin/user/login']]
             ) : (
+                '<li>' .Html::a('User Management', ['/admin/user'], ['class' => 'form-inline btn btn-link']).'</li>' .
+                '<li>' .Html::a('File Management', ['/file/index'], ['class' => 'form-inline btn btn-link']).'</li>' .
                 '<li>'
-                . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
+                . Html::beginForm(['/admin/user/logout'], 'post', ['class' => 'form-inline'])
                 . Html::submitButton(
                     'Logout (' . Yii::$app->user->identity->username . ')',
                     ['class' => 'btn btn-link logout']
@@ -53,7 +87,7 @@ AppAsset::register($this);
                 . '</li>'
             )
         ],
-    ]);
+    ]);*/
     NavBar::end();
     ?>
 </header>
