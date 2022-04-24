@@ -39,7 +39,10 @@ AppAsset::register($this);
         'items' => [
             [
                 'label' => 'File Management',
-                'url' => ['/file/index'],
+                'items' => [
+                    ['label' => 'Category Management', 'url' => '/category/index'],
+                    ['label' => 'File List', 'url' => '/file/index'],
+                ],
                 'visible' => !Yii::$app->user->isGuest
             ],
             [
