@@ -1,5 +1,7 @@
 <?php
 
+use app\models\Category;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
 
@@ -16,12 +18,15 @@ use yii\bootstrap4\ActiveForm;
             <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col">
+            <?= $form->field($model, 'categoryId')->dropdownList(ArrayHelper::map(Category::findAll(['status' => 1]), 'id', 'name'), ['maxlength' => true]) ?>
+        </div>
+        <div class="col">
             <?= $form->field($model, 'status')->dropDownList(['Active', 'Inactive']) ?>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <?= $form->field($model, 'pdfFile')->fileInput(['maxlength' => true, ['class' => 'form-control']])->label('File') ?>
+            <?= $form->field($model, 'pdfFile')->fileInput(['maxlength' => true,'class' => 'form-control'])->label('File') ?>
         </div>
     </div>
     <div class="form-group">

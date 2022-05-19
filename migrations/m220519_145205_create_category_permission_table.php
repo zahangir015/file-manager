@@ -3,20 +3,20 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%category}}`.
+ * Handles the creation of table `{{%category_permission}}`.
  */
-class m220424_110708_create_category_table extends Migration
+class m220519_145205_create_category_permission_table extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->createTable('{{%category}}', [
+        $this->createTable('{{%category_permission}}', [
             'id' => $this->primaryKey(),
-            'parentId' => $this->integer()->notNull(),
-            'name' => $this->string()->notNull(),
-            'status' => $this->boolean()->notNull(),
+            'userId' => $this->integer()->notNull(),
+            'refId' => $this->integer()->notNull(),
+            'refModel' => $this->string()->notNull(),
             'createdBy' => $this->integer()->notNull(),
             'updatedBy' => $this->integer()->null(),
             'createdAt' => $this->dateTime()->notNull(),
@@ -29,6 +29,6 @@ class m220424_110708_create_category_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%category}}');
+        $this->dropTable('{{%category_permission}}');
     }
 }

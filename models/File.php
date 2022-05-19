@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "{{%file}}".
@@ -10,6 +11,7 @@ use Yii;
  * @property int $id
  * @property string $title
  * @property string $path
+ * @property int $categoryId
  * @property int $status
  * @property string $createdBy
  * @property int|null $updatedBy
@@ -23,7 +25,7 @@ class File extends \yii\db\ActiveRecord
      */
     public $pdfFile;
 
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%file}}';
     }
@@ -31,11 +33,11 @@ class File extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            [['title', 'path', 'status', 'createdBy', 'createdAt'], 'required'],
-            [['status', 'updatedBy', 'createdBy'], 'integer'],
+            [['categoryId', 'title', 'path', 'status', 'createdBy', 'createdAt'], 'required'],
+            [['status', 'updatedBy', 'createdBy', 'categoryId'], 'integer'],
             [['createdAt', 'updatedAt'], 'safe'],
             [['title'], 'unique'],
             [['title', 'path'], 'string', 'max' => 255],
@@ -46,11 +48,12 @@ class File extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => Yii::t('app', 'ID'),
             'title' => Yii::t('app', 'Title'),
+            'categoryId' => Yii::t('app', 'Category'),
             'path' => Yii::t('app', 'Path'),
             'status' => Yii::t('app', 'Status'),
             'createdBy' => Yii::t('app', 'Created By'),
@@ -58,5 +61,15 @@ class File extends \yii\db\ActiveRecord
             'createdAt' => Yii::t('app', 'Created At'),
             'updatedAt' => Yii::t('app', 'Updated At'),
         ];
+    }
+
+    /**
+     * Gets query for [[Category]].
+     *
+     * @return ActiveQuery
+     */
+    public function getCategory(): ActiveQuery
+    {
+        return $this->hasOne(Category::className(), ['id' => 'categoryId']);
     }
 }

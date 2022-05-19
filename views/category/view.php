@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Category;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -29,9 +30,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'parentId',
+            [
+                'attribute' => 'parentId',
+                'value' => function ($model) {
+                    return ($model->parentId) ? Category::findOne($model->parentId)->name : null;
+                },
+            ],
             'name',
-            'status',
+            [
+                'attribute' => 'status',
+                'value' => function ($model) {
+                    return $model->status ? '<span class="label label-lg label-light-primary label-inline">Active</span>' : '<span class="label label-lg label-light-danger label-inline">Inactive</span>';
+                },
+                'format' => 'html',
+            ],
             'createdBy',
             'updatedBy',
             'createdAt',

@@ -19,7 +19,7 @@ $categories = ArrayHelper::map(Category::findAll(['status' => 1]), 'id', 'name')
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status')->dropDownList(['Active', 'Inactive']) ?>
+    <?= $form->field($model, 'status')->dropDownList(['Inactive', 'Active']) ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

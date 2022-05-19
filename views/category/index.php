@@ -1,10 +1,13 @@
 <?php
 
+use app\models\Category;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -30,9 +33,22 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             //'id',
-            'parentId',
+            [
+                'attribute' => 'parentId',
+                'value' => function ($model) {
+                    return ($model->parentId) ? Category::findOne($model->parentId)->name : null;
+                },
+                'filter' => ArrayHelper::map(Category::findAll(['status' => 1]), 'id', 'name')
+            ],
             'name',
-            'status',
+            [
+                'attribute' => 'status',
+                'value' => function ($model) {
+                    return $model->status ? '<span class="label label-lg label-light-primary label-inline">Active</span>' : '<span class="label label-lg label-light-danger label-inline">Inactive</span>';
+                },
+                'format' => 'html',
+                'filter' => ['Inactive', 'Active']
+            ],
             'createdBy',
             'updatedBy',
             'createdAt',
@@ -41,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                }
             ],
         ],
     ]); ?>

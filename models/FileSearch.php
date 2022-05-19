@@ -14,10 +14,10 @@ class FileSearch extends File
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            [['id', 'status', 'updatedBy', 'createdAt'], 'integer'],
+            [['id', 'status', 'updatedBy', 'createdAt', 'categoryId'], 'integer'],
             [['title', 'path', 'createdBy', 'updatedAt'], 'safe'],
         ];
     }
@@ -25,7 +25,7 @@ class FileSearch extends File
     /**
      * {@inheritdoc}
      */
-    public function scenarios()
+    public function scenarios(): array
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
@@ -38,7 +38,7 @@ class FileSearch extends File
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search(array $params): ActiveDataProvider
     {
         $query = File::find();
 
@@ -60,6 +60,7 @@ class FileSearch extends File
         $query->andFilterWhere([
             'id' => $this->id,
             'status' => $this->status,
+            'categoryId' => $this->categoryId,
             'createdBy' => $this->createdBy,
             'updatedBy' => $this->updatedBy,
             'createdAt' => $this->createdAt,
