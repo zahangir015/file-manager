@@ -20,6 +20,7 @@ use yii\db\ActiveQuery;
  */
 class File extends \yii\db\ActiveRecord
 {
+    public $files;
     /**
      * {@inheritdoc}
      */
@@ -38,10 +39,9 @@ class File extends \yii\db\ActiveRecord
         return [
             [['categoryId', 'title', 'path', 'status', 'createdBy', 'createdAt'], 'required'],
             [['status', 'updatedBy', 'createdBy', 'categoryId'], 'integer'],
-            [['createdAt', 'updatedAt'], 'safe'],
+            [['createdAt', 'updatedAt', 'pdfFile'], 'safe'],
             [['title'], 'unique'],
             [['title', 'path'], 'string', 'max' => 255],
-            [['pdfFile'], 'file'],
         ];
     }
 

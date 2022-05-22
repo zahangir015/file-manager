@@ -72,25 +72,35 @@ class FileController extends Controller
     {
         $model = new File();
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                $file = UploadedFile::getInstance($model, 'pdfFile');
-                if (!empty($file)) {
-                    $filename = self::processFile($file, $model->title);
-                }
-                if ($filename) {
-                    $model->path = 'uploads/files/' . $filename;
-                    $model->createdBy = Yii::$app->user->id;
-                    $model->createdAt = date('Y-m-d h:i:s');
-                    if ($model->save()) {
-                        Yii::$app->session->setFlash('success', 'File uploaded successfully');
-                        return $this->redirect(['view', 'id' => $model->id]);
+            $postData = $this->request->post();
+            $pdfFiles = UploadedFile::getInstances($model, 'files');
+            if (!empty($pdfFiles)) {
+                foreach ($pdfFiles as $key => $file) {
+                    $filename = self::processFile($file, $model->categoryId);
+                    if ($filename) {
+                        $model = new File();
+                        if ($model->load($postData)) {
+                            $model->title = $model->title.($key+1);
+                            $model->path = 'uploads/files/' . $model->categoryId . '/' . $filename;
+                            $model->createdBy = Yii::$app->user->id;
+                            $model->createdAt = date('Y-m-d h:i:s');
+
+                            if (!$model->save()) {
+                                Yii::$app->session->setFlash('error', 'File upload failed - ' . Utils::processErrorMessages($model->getErrors()));
+                                break;
+                            } else {
+                                Yii::$app->session->setFlash('error', 'File upload failed - ' . Utils::processErrorMessages($model->getErrors()));
+                            }
+                        }
+
                     } else {
-                        Yii::$app->session->setFlash('error', 'File upload failed - ' . Utils::processErrorMessages($model->getErrors()));
+                        Yii::$app->session->setFlash('error', 'File process failed');
+                        break;
                     }
-                } else {
-                    Yii::$app->session->setFlash('error', 'File process failed');
                 }
 
+                Yii::$app->session->setFlash('success', 'File uploaded successfully');
+                return $this->redirect(['index']);
             }
         } else {
             $model->loadDefaultValues();
@@ -155,7 +165,7 @@ class FileController extends Controller
         if ($model->delete()) {
             unlink($oldFilePath);
             Yii::$app->session->setFlash('success', 'File deleted successfully');
-        }else{
+        } else {
             Yii::$app->session->setFlash('error', 'File deletion failed');
         }
 
@@ -178,18 +188,33 @@ class FileController extends Controller
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 
-    protected static function processFile($file)
+    protected static function processFile($file, $folder)
     {
-        $uploadsDir = 'uploads/files';
+        $uploadsDir = 'uploads/files/'.$folder;
         $imageUploadPath = $uploadsDir . DIRECTORY_SEPARATOR;
         Utils::checkDir($imageUploadPath);
         $filename = Utils::getRandomName() . '.pdf';
-
         if ($file->saveAs($imageUploadPath . $filename)) {
             return $filename;
         } else {
             return false;
         }
 
+    }
+
+    /**
+     * @param $path
+     */
+    public static function checkDir($path)
+    {
+        if (is_array($path)) {
+            foreach ($path as $p) {
+                self::checkDir($p);
+            }
+        } else {
+            if (!file_exists($path)) {
+                mkdir($path, 0755, true);
+            }
+        }
     }
 }

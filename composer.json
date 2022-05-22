@@ -20,7 +20,9 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "yii2assets/yii2-pdfjs": ">=1.0",
         "mdmsoft/yii2-admin": "~2.0",
-        "kartik-v/yii2-grid": "v3.5.0"
+        "kartik-v/yii2-grid": "v3.5.0",
+        "kartik-v/yii2-widget-fileinput": "^1.1",
+        "yiisoft/yii2-bootstrap": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

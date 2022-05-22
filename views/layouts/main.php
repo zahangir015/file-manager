@@ -38,12 +38,18 @@ AppAsset::register($this);
     echo Nav::widget([
         'items' => [
             [
-                'label' => 'File Management',
+                'label' => 'Folder Management',
                 'items' => [
-                    ['label' => 'Category Management', 'url' => '/category/index'],
+                    ['label' => 'Folder Management', 'url' => '/category/index'],
+                    ['label' => 'Folder Permissions', 'url' => '/category-permission/index'],
                     ['label' => 'File List', 'url' => '/file/index'],
                 ],
-                'visible' => !Yii::$app->user->isGuest
+                'visible' => !Yii::$app->user->isGuest && Yii::$app->user->can('File Management')
+            ],
+            [
+                'label' => 'Folders',
+                'url' => '/category/index',
+                'visible' => !Yii::$app->user->isGuest && Yii::$app->user->can('Folder List')
             ],
             [
                 'label' => 'User Management',

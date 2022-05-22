@@ -22,14 +22,14 @@ class m220519_130920_add_categoryId_column_to_file_table extends Migration
         );
 
         // add foreign key for table `category`
-        $this->addForeignKey(
+        /*$this->addForeignKey(
             'fk-file-categoryId',
             'file',
             'categoryId',
             'category',
             'id',
             'CASCADE'
-        );
+        );*/
     }
 
     /**
@@ -38,10 +38,10 @@ class m220519_130920_add_categoryId_column_to_file_table extends Migration
     public function safeDown()
     {
         // drops foreign key for table `post`
-        $this->dropForeignKey(
+        /*$this->dropForeignKey(
             'fk-file-categoryId',
             'file'
-        );
+        );*/
 
         // drops index for column `categoryId`
         $this->dropIndex(

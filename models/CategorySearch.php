@@ -5,6 +5,7 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Category;
+use yii\helpers\ArrayHelper;
 
 /**
  * CategorySearch represents the model behind the search form of `app\models\Category`.
@@ -43,6 +44,8 @@ class CategorySearch extends Category
         $query = Category::find();
 
         // add conditions that should always apply here
+        $folders = CategoryPermission::find()->select(['refId', 'id'])->where(['userId' => \Yii::$app->user->id])->all();
+        $query->where(['id' => ArrayHelper::map($folders, 'id', 'refId')]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -53,6 +56,7 @@ class CategorySearch extends Category
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
+
             return $dataProvider;
         }
 
