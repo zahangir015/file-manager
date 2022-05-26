@@ -45,7 +45,7 @@ class CategorySearch extends Category
 
         // add conditions that should always apply here
         $folders = CategoryPermission::find()->select(['refId', 'id'])->where(['userId' => \Yii::$app->user->id])->all();
-        $query->where(['id' => ArrayHelper::map($folders, 'id', 'refId')]);
+        $query->andFilterWhere(['id' => ArrayHelper::map($folders, 'id', 'refId')])->andFilterWhere(['status' => 1]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

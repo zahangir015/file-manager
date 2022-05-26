@@ -5,6 +5,7 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\File;
+use yii\helpers\ArrayHelper;
 
 /**
  * FileSearch represents the model behind the search form of `app\models\File`.
@@ -43,6 +44,8 @@ class FileSearch extends File
         $query = File::find();
 
         // add conditions that should always apply here
+        /*$folders = CategoryPermission::find()->select(['refId', 'id'])->where(['userId' => \Yii::$app->user->id])->all();
+        $query->andFilterWhere(['categoryId' => ArrayHelper::map($folders, 'id', 'refId')])->andFilterWhere(['status' => 1]);*/
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -5,6 +5,8 @@ namespace app\controllers;
 use app\components\Utils;
 use app\models\Category;
 use app\models\CategorySearch;
+use app\models\File;
+use app\models\FileSearch;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -47,6 +49,44 @@ class CategoryController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionList(): string
+    {
+        $searchModel = new CategorySearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
+        return $this->render('list', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionFileList($categoryId): string
+    {
+        $searchModel = new FileSearch();
+        $dataProvider = $searchModel->search([
+            'FileSearch' => [
+                'categoryId' => Yii::$app->security->decryptByKey($categoryId, 'MegaMind')
+            ]
+        ]);
+
+        return $this->render('file_list', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionFileView($id): string
+    {
+        if (($model = File::findOne(['id' => Yii::$app->security->decryptByKey($id, 'MegaMind')])) !== null) {
+            return $this->render('file_view', [
+                'model' => $model,
+            ]);
+        }
+
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+
     }
 
     /**

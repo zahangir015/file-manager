@@ -22,6 +22,7 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
 </head>
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
@@ -47,11 +48,6 @@ AppAsset::register($this);
                 'visible' => !Yii::$app->user->isGuest && Yii::$app->user->can('File Management')
             ],
             [
-                'label' => 'Folders',
-                'url' => '/category/index',
-                'visible' => !Yii::$app->user->isGuest && Yii::$app->user->can('Folder List')
-            ],
-            [
                 'label' => 'User Management',
                 'items' => [
                     ['label' => 'Users', 'url' => '/admin/user'],
@@ -62,6 +58,11 @@ AppAsset::register($this);
                     ['label' => 'Rules', 'url' => '/admin/rule'],
                 ],
                 'visible' => !Yii::$app->user->isGuest && (Yii::$app->user->can('User Management'))
+            ],
+            [
+                'label' => 'Folders',
+                'url' => '/category/list',
+                'visible' => !Yii::$app->user->isGuest && Yii::$app->user->can('Folder List')
             ],
             [
                 'label' => 'Login',

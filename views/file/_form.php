@@ -4,7 +4,7 @@ use app\models\Category;
 use kartik\file\FileInput;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\File */
