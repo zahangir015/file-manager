@@ -88,7 +88,7 @@ class FileController extends Controller
                                 Yii::$app->session->setFlash('error', 'File upload failed - ' . Utils::processErrorMessages($model->getErrors()));
                                 break;
                             } else {
-                                Yii::$app->session->setFlash('error', 'File upload failed - ' . Utils::processErrorMessages($model->getErrors()));
+                                Yii::$app->session->setFlash('success', 'File uploaded successfully.');
                             }
                         }
 

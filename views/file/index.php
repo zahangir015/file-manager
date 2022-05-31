@@ -35,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             [
                 'attribute' => 'categoryId',
+                'label' => 'Folder',
                 'value' => function ($model) {
                     return $model->category->name ?? null;
                 },

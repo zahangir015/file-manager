@@ -167,7 +167,7 @@ class CategoryPermissionController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     public
-    function actionDelete($id)
+    function actionDelete(int $id)
     {
         $this->findModel($id)->delete();
 
@@ -182,9 +182,9 @@ class CategoryPermissionController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected
-    function findModel($id)
+    function findModel(int $id)
     {
-        if (($model = CategoryPermission::find()->where(['id' => $id])->all()) !== null) {
+        if (($model = CategoryPermission::find()->where(['userId' => $id])->all()) !== null) {
             return $model;
         }
 

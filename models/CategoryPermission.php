@@ -48,8 +48,8 @@ class CategoryPermission extends ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'userId' => Yii::t('app', 'User ID'),
-            'refId' => Yii::t('app', 'Ref ID'),
+            'userId' => Yii::t('app', 'User'),
+            'refId' => Yii::t('app', 'Folder'),
             'refModel' => Yii::t('app', 'Ref Model'),
             'createdBy' => Yii::t('app', 'Created By'),
             'updatedBy' => Yii::t('app', 'Updated By'),

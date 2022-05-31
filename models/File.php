@@ -53,7 +53,7 @@ class File extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'title' => Yii::t('app', 'Title'),
-            'categoryId' => Yii::t('app', 'Category'),
+            'categoryId' => Yii::t('app', 'Folder'),
             'path' => Yii::t('app', 'Path'),
             'status' => Yii::t('app', 'Status'),
             'createdBy' => Yii::t('app', 'Created By'),
