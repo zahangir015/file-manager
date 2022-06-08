@@ -12,6 +12,8 @@ use yii\helpers\ArrayHelper;
  */
 class CategorySearch extends Category
 {
+    public $creator;
+
     /**
      * {@inheritdoc}
      */
@@ -19,7 +21,7 @@ class CategorySearch extends Category
     {
         return [
             [['id', 'parentId', 'status', 'updatedBy', 'createdAt'], 'integer'],
-            [['name', 'createdBy', 'updatedAt'], 'safe'],
+            [['name', 'createdBy', 'updatedAt', 'creator'], 'safe'],
         ];
     }
 
@@ -42,14 +44,22 @@ class CategorySearch extends Category
     public function search(array $params): ActiveDataProvider
     {
         $query = Category::find();
-
+        $query->joinWith(['creator']);
         // add conditions that should always apply here
         $folders = CategoryPermission::find()->select(['refId', 'id'])->where(['userId' => \Yii::$app->user->id])->all();
-        $query->andFilterWhere(['id' => ArrayHelper::map($folders, 'id', 'refId')])->andFilterWhere(['status' => 1]);
+        $query->andFilterWhere(['category.id' => ArrayHelper::map($folders, 'id', 'refId')])->andFilterWhere(['category.status' => 1]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> ['defaultOrder' => ['id' => SORT_DESC]]
         ]);
+
+        $dataProvider->sort->attributes['creator'] = [
+            // The tables are the ones our relation are configured to
+            // in my case they are prefixed with "tbl_"
+            'asc' => ['user.email' => SORT_ASC],
+            'desc' => ['user.email' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -62,16 +72,17 @@ class CategorySearch extends Category
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'parentId' => $this->parentId,
-            'status' => $this->status,
-            'createdBy' => $this->createdBy,
-            'updatedBy' => $this->updatedBy,
-            'createdAt' => $this->createdAt,
-            'updatedAt' => $this->updatedAt,
+            'category.id' => $this->id,
+            'category.parentId' => $this->parentId,
+            'category.status' => $this->status,
+            'category.createdBy' => $this->createdBy,
+            'category.updatedBy' => $this->updatedBy,
+            'category.createdAt' => $this->createdAt,
+            'category.updatedAt' => $this->updatedAt,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'category.name', $this->name])
+            ->andFilterWhere(['like', 'user.email', $this->creator]);
 
         return $dataProvider;
     }

@@ -44,7 +44,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'html',
             ],
-            'createdBy',
+            [
+                'attribute' => 'creator',
+                'value' => function ($model) {
+                    return $model->creator->email;
+                },
+            ],
             'updatedBy',
             'createdAt',
             'updatedAt',

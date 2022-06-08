@@ -32,7 +32,7 @@ class Category extends \yii\db\ActiveRecord
     public function rules(): array
     {
         return [
-            [['parentId', 'name', 'status', 'createdBy', 'createdAt'], 'required'],
+            [['name', 'status', 'createdBy', 'createdAt'], 'required'],
             [['parentId', 'status', 'updatedBy', 'createdBy'], 'integer'],
             [['createdAt', 'updatedAt'], 'safe'],
             [['name'], 'string', 'max' => 255],
@@ -54,5 +54,10 @@ class Category extends \yii\db\ActiveRecord
             'createdAt' => Yii::t('app', 'Created At'),
             'updatedAt' => Yii::t('app', 'Updated At'),
         ];
+    }
+
+    public function getCreator()
+    {
+        return $this->hasOne(\mdm\admin\models\User::className(), ['id' => 'createdBy']);
     }
 }

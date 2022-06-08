@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\web\JqueryAsset;
+use yii\web\YiiAsset;
 use yii\widgets\DetailView;
 use yii2assets\pdfjs\PdfJs;
 
@@ -11,11 +13,11 @@ use yii2assets\pdfjs\PdfJs;
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Files'), 'url' => ['file-list', 'categoryId' => Yii::$app->security->encryptByKey($model->categoryId, 'MegaMind')]];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+YiiAsset::register($this);
 
 $this->registerJsFile(
     '@web/js/pdf_viewer.js',
-    ['depends' => [\yii\web\JqueryAsset::className()]]
+    ['depends' => [JqueryAsset::className()]]
 );
 ?>
 <div class="file-view">
