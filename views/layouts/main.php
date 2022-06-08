@@ -51,6 +51,7 @@ AppAsset::register($this);
                 'label' => 'User Management',
                 'items' => [
                     ['label' => 'Users', 'url' => '/admin/user'],
+                    ['label' => 'Create User', 'url' => '/admin/user/signup'],
                     ['label' => 'Assignments', 'url' => '/admin/assignment'],
                     ['label' => 'Roles', 'url' => '/admin/role'],
                     ['label' => 'Permissions', 'url' => '/admin/permission'],
@@ -69,12 +70,11 @@ AppAsset::register($this);
                 'url' => ['/admin/user/login'],
                 'visible' => Yii::$app->user->isGuest
             ],
-
             [
                 'label' => 'Logout',
                 'url' => ['/admin/user/logout'],
                 'linkOptions' => ['data-method' => 'post'],
-                'visible' => !Yii::$app->user->isGuest && (Yii::$app->user->can('File Management')),
+                'visible' => !Yii::$app->user->isGuest,
             ],
         ],
         'options' => ['class' =>'nav-pills'], // set this to nav-tab to get tab-styled navigation
