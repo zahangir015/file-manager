@@ -76,11 +76,11 @@ class FileController extends Controller
             $pdfFiles = UploadedFile::getInstances($model, 'files');
             if (!empty($pdfFiles)) {
                 foreach ($pdfFiles as $key => $file) {
-                    $filename = self::processFile($file, $model->categoryId);
+                    $filename = self::processFile($file, $postData['File']['categoryId']);
                     if ($filename) {
                         $model = new File();
                         if ($model->load($postData)) {
-                            $model->title = $model->title.($key+1);
+                            $model->title = (count($pdfFiles) > 1) ? $model->title . ($key + 1) : $model->title;
                             $model->path = 'uploads/files/' . $model->categoryId . '/' . $filename;
                             $model->createdBy = Yii::$app->user->id;
                             $model->createdAt = date('Y-m-d h:i:s');
@@ -190,7 +190,7 @@ class FileController extends Controller
 
     protected static function processFile($file, $folder)
     {
-        $uploadsDir = 'uploads/files/'.$folder;
+        $uploadsDir = 'uploads/files/' . $folder;
         $imageUploadPath = $uploadsDir . DIRECTORY_SEPARATOR;
         Utils::checkDir($imageUploadPath);
         $filename = Utils::getRandomName() . '.pdf';

@@ -52,7 +52,7 @@ class FileSearch extends File
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['file.id' => SORT_DESC]],
+            'sort'=> ['defaultOrder' => ['id' => SORT_DESC]],
         ]);
 
         $dataProvider->sort->attributes['creator'] = [

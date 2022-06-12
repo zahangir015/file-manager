@@ -48,7 +48,7 @@ class CategoryPermissionSearch extends CategoryPermission
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['category_permission.id' => SORT_DESC]]
+            'sort'=> ['defaultOrder' => ['id' => SORT_DESC]]
         ]);
 
         $dataProvider->sort->attributes['creator'] = [
