@@ -72,4 +72,9 @@ class File extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Category::className(), ['id' => 'categoryId']);
     }
+
+    public function getCreator(): \yii\db\ActiveQuery
+    {
+        return $this->hasOne(\mdm\admin\models\User::className(), ['id' => 'createdBy']);
+    }
 }

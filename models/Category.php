@@ -21,7 +21,7 @@ class Category extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%category}}';
     }
@@ -56,7 +56,7 @@ class Category extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getCreator()
+    public function getCreator(): \yii\db\ActiveQuery
     {
         return $this->hasOne(\mdm\admin\models\User::className(), ['id' => 'createdBy']);
     }

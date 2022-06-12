@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create File'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Upload File'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
@@ -49,9 +49,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'filter' => ['Inactive', 'Active']
             ],
-            'createdBy',
+            [
+                'attribute' => 'creator',
+                'value' => function ($model) {
+                    return $model->creator->email;
+                },
+            ],
+            'createdAt:date',
             'updatedBy',
-            'createdAt',
             'updatedAt',
             [
                 'class' => ActionColumn::className(),

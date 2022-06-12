@@ -12,7 +12,6 @@ use yii\bootstrap4\ActiveForm;
 ?>
 
 <div class="file-form">
-
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
     <div class="row">
         <div class="col">

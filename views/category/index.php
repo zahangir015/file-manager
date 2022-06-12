@@ -54,8 +54,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->creator->email;
                 },
             ],
+            'createdAt:date',
             'updatedBy',
-            'createdAt',
             'updatedAt',
             [
                 'class' => ActionColumn::className(),

@@ -12,6 +12,8 @@ use yii\helpers\ArrayHelper;
  */
 class FileSearch extends File
 {
+    public $creator;
+
     /**
      * {@inheritdoc}
      */
@@ -19,7 +21,7 @@ class FileSearch extends File
     {
         return [
             [['id', 'status', 'updatedBy', 'createdAt', 'categoryId'], 'integer'],
-            [['title', 'path', 'createdBy', 'updatedAt'], 'safe'],
+            [['title', 'path', 'createdBy', 'updatedAt', 'creator'], 'safe'],
         ];
     }
 
@@ -42,6 +44,7 @@ class FileSearch extends File
     public function search(array $params): ActiveDataProvider
     {
         $query = File::find();
+        $query->joinWith(['creator']);
 
         // add conditions that should always apply here
         /*$folders = CategoryPermission::find()->select(['refId', 'id'])->where(['userId' => \Yii::$app->user->id])->all();
@@ -49,8 +52,15 @@ class FileSearch extends File
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['id' => SORT_DESC]],
+            'sort'=> ['defaultOrder' => ['file.id' => SORT_DESC]],
         ]);
+
+        $dataProvider->sort->attributes['creator'] = [
+            // The tables are the ones our relation are configured to
+            // in my case they are prefixed with "tbl_"
+            'asc' => ['user.email' => SORT_ASC],
+            'desc' => ['user.email' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -62,17 +72,18 @@ class FileSearch extends File
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'status' => $this->status,
-            'categoryId' => $this->categoryId,
-            'createdBy' => $this->createdBy,
-            'updatedBy' => $this->updatedBy,
-            'createdAt' => $this->createdAt,
-            'updatedAt' => $this->updatedAt,
+            'file.id' => $this->id,
+            'file.status' => $this->status,
+            'file.categoryId' => $this->categoryId,
+            'file.createdBy' => $this->createdBy,
+            'file.updatedBy' => $this->updatedBy,
+            'file.createdAt' => $this->createdAt,
+            'file.updatedAt' => $this->updatedAt,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'path', $this->path]);
+        $query->andFilterWhere(['like', 'file.title', $this->title])
+            ->andFilterWhere(['like', 'file.path', $this->path])
+            ->andFilterWhere(['like', 'user.email', $this->creator]);
 
         return $dataProvider;
     }

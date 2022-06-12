@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ?>
             <tr>
                 <td><?= $permission->refModel::findOne($permission->refId)->name ?></td>
-                <td><?= $permission->createdBy ?></td>
+                <td><?= $permission->creator->email ?></td>
                 <td><?= $permission->createdAt ?></td>
                 <td><?= $permission->updatedBy ?></td>
                 <td><?= $permission->updatedAt ?></td>

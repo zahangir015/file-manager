@@ -11,6 +11,8 @@ use app\models\CategoryPermission;
  */
 class CategoryPermissionSearch extends CategoryPermission
 {
+    public $creator;
+
     /**
      * {@inheritdoc}
      */
@@ -18,7 +20,7 @@ class CategoryPermissionSearch extends CategoryPermission
     {
         return [
             [['id', 'userId', 'refId', 'createdBy', 'updatedBy'], 'integer'],
-            [['refModel', 'createdAt', 'updatedAt'], 'safe'],
+            [['refModel', 'createdAt', 'updatedAt', 'creator'], 'safe'],
         ];
     }
 
@@ -41,11 +43,20 @@ class CategoryPermissionSearch extends CategoryPermission
     public function search(array $params): ActiveDataProvider
     {
         $query = CategoryPermission::find();
+        $query->joinWith(['creator']);
 
         // add conditions that should always apply here
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> ['defaultOrder' => ['category_permission.id' => SORT_DESC]]
         ]);
+
+        $dataProvider->sort->attributes['creator'] = [
+            // The tables are the ones our relation are configured to
+            // in my case they are prefixed with "tbl_"
+            'asc' => ['user.email' => SORT_ASC],
+            'desc' => ['user.email' => SORT_DESC],
+        ];
 
 
         $this->load($params);
@@ -58,16 +69,17 @@ class CategoryPermissionSearch extends CategoryPermission
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'userId' => $this->userId,
-            'refId' => $this->refId,
-            'createdBy' => $this->createdBy,
-            'updatedBy' => $this->updatedBy,
-            'createdAt' => $this->createdAt,
-            'updatedAt' => $this->updatedAt,
+            'category_permission.id' => $this->id,
+            'category_permission.userId' => $this->userId,
+            'category_permission.refId' => $this->refId,
+            'category_permission.createdBy' => $this->createdBy,
+            'category_permission.updatedBy' => $this->updatedBy,
+            'category_permission.createdAt' => $this->createdAt,
+            'category_permission.updatedAt' => $this->updatedAt,
         ]);
 
-        $query->andFilterWhere(['like', 'refModel', $this->refModel]);
+        $query->andFilterWhere(['like', 'category_permission.refModel', $this->refModel])
+            ->andFilterWhere(['like', 'user.email', $this->creator]);
 
 
         return $dataProvider;

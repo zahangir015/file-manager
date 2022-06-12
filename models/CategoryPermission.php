@@ -68,5 +68,9 @@ class CategoryPermission extends ActiveRecord
         return $this->hasOne(\mdm\admin\models\User::className(), ['id' => 'userId']);
     }
 
+    public function getCreator(): \yii\db\ActiveQuery
+    {
+        return $this->hasOne(\mdm\admin\models\User::className(), ['id' => 'createdBy']);
+    }
 
 }
