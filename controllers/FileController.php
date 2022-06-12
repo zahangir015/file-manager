@@ -124,6 +124,7 @@ class FileController extends Controller
         $oldFilePath = $model->path;
         $filename = null;
         if ($this->request->isPost && $model->load($this->request->post())) {
+            ini_set('memory_limit', '-1');
             $model->updatedBy = Yii::$app->user->id;
             $model->updatedAt = date('Y-m-d h:i:s');
             $file = UploadedFile::getInstance($model, 'pdfFile');

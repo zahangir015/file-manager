@@ -41,8 +41,8 @@ AppAsset::register($this);
             [
                 'label' => 'Folder Management',
                 'items' => [
-                    ['label' => 'Folder Management', 'url' => '/category/index'],
-                    ['label' => 'Folder Permissions', 'url' => '/category-permission/index'],
+                    ['label' => 'Folder List', 'url' => '/category/index'],
+                    ['label' => 'Folder Permission List', 'url' => '/category-permission/index'],
                     ['label' => 'File List', 'url' => '/file/index'],
                 ],
                 'visible' => !Yii::$app->user->isGuest && Yii::$app->user->can('File Management')

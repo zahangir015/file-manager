@@ -35,6 +35,7 @@ class Category extends \yii\db\ActiveRecord
             [['name', 'status', 'createdBy', 'createdAt'], 'required'],
             [['parentId', 'status', 'updatedBy', 'createdBy'], 'integer'],
             [['createdAt', 'updatedAt'], 'safe'],
+            [['name'], 'unique'],
             [['name'], 'string', 'max' => 255],
         ];
     }

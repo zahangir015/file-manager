@@ -20,7 +20,7 @@ class CategoryController extends Controller
     /**
      * @inheritDoc
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return array_merge(
             parent::behaviors(),
@@ -40,7 +40,7 @@ class CategoryController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex(): string
     {
         $searchModel = new CategorySearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
@@ -116,10 +116,10 @@ class CategoryController extends Controller
                 $model->createdBy = Yii::$app->user->id;
                 $model->createdAt = date('Y-m-d h:i:s');
                 if ($model->save()) {
-                    Yii::$app->session->setFlash('success', 'Category created successfully');
+                    Yii::$app->session->setFlash('success', 'Folder created successfully');
                     return $this->redirect(['view', 'id' => $model->id]);
                 } else {
-                    Yii::$app->session->setFlash('error', 'Category creation failed - ' . Utils::processErrorMessages($model->getErrors()));
+                    Yii::$app->session->setFlash('error', 'Folder creation failed - ' . Utils::processErrorMessages($model->getErrors()));
                 }
             }
         }

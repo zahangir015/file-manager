@@ -12,6 +12,7 @@ use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * CategoryPermissionController implements the CRUD actions for CategoryPermission model.
@@ -69,7 +70,7 @@ class CategoryPermissionController extends Controller
     /**
      * Creates a new CategoryPermission model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
+     * @return string|Response
      */
     public function actionCreate()
     {
@@ -86,20 +87,19 @@ class CategoryPermissionController extends Controller
                     $model->createdAt = date('Y-m-d h:i:s');
                     if (!$model->save()) {
                         $flag = false;
-                        Yii::$app->session->setFlash('error', 'Category permission addition failed - ' . Utils::processErrorMessages($model->getErrors()));
+                        Yii::$app->session->setFlash('error', 'Folder permission addition failed - ' . Utils::processErrorMessages($model->getErrors()));
                         break;
                     }
                 }
             }
 
             if ($flag) {
-                Yii::$app->session->setFlash('success', 'Category permission added successfully');
+                Yii::$app->session->setFlash('success', 'Folder permission added successfully');
                 return $this->redirect(['view', 'id' => $postData['CategoryPermission']['userId']]);
             }
-
         }
 
-        $model->loadDefaultValues();
+        //$model->loadDefaultValues();
         $categories = ArrayHelper::map(Category::findAll(['status' => 1]), 'id', 'name');
         return $this->render('create', ['model' => $model,
             'categories' => $categories]);
@@ -109,8 +109,8 @@ class CategoryPermissionController extends Controller
      * Updates an existing CategoryPermission model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
+     * @return string|Response
+     * @throws NotFoundHttpException|\yii\db\Exception if the model cannot be found
      */
     public
     function actionUpdate(int $id)
@@ -131,7 +131,7 @@ class CategoryPermissionController extends Controller
                         $model->createdAt = date('Y-m-d h:i:s');
                         if (!$model->save()) {
                             $flag = false;
-                            Yii::$app->session->setFlash('error', 'Category permission addition failed - ' . Utils::processErrorMessages($model->getErrors()));
+                            Yii::$app->session->setFlash('error', 'Folder permission addition failed - ' . Utils::processErrorMessages($model->getErrors()));
                             break;
                         }
                     }
@@ -141,7 +141,7 @@ class CategoryPermissionController extends Controller
                     $transaction->rollBack();
                 } else {
                     $transaction->commit();
-                    Yii::$app->session->setFlash('success', 'Category permission updated successfully.');
+                    Yii::$app->session->setFlash('success', 'Folder permission updated successfully.');
                     return $this->redirect(['view', 'id' => $postData['CategoryPermission']['userId']]);
                 }
 
@@ -163,11 +163,11 @@ class CategoryPermissionController extends Controller
      * Deletes an existing CategoryPermission model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
-     * @return \yii\web\Response
+     * @return Response
      * @throws NotFoundHttpException if the model cannot be found
      */
     public
-    function actionDelete(int $id)
+    function actionDelete(int $id): Response
     {
         $this->findModel($id)->delete();
 

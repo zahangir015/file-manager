@@ -45,7 +45,9 @@ class CategoryPermissionSearch extends CategoryPermission
         $query = CategoryPermission::find();
         $query->joinWith(['creator']);
 
+
         // add conditions that should always apply here
+        $query->groupBy(['userId']);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort'=> ['defaultOrder' => ['id' => SORT_DESC]]

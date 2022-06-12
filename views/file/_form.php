@@ -35,6 +35,10 @@ use yii\bootstrap4\ActiveForm;
                     //'uploadUrl' => Url::to(['/site/file-upload']),
                     'maxFileCount' => 10,
                     'showUploadStats' => true,
+                    'showUpload' =>  true,
+                    'showCancel' =>  false,
+                    'theme' =>  'fas',
+                    'language' =>  'es',
                 ]
             ])->label('Upload files');
             ?>
